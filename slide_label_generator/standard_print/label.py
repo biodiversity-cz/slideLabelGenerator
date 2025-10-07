@@ -26,7 +26,7 @@ class Label(Flowable):
     def draw(self):
 
         c = self.canv
-        x0, y0 = 0, 0
+        x0, y0 = 1, 1
 
         # Okraj štítku
         c.rect(x0, y0, self.width, self.height)
@@ -37,10 +37,9 @@ class Label(Flowable):
         qr_width = self.width - id_band_width - taxon_band_width
 
         # Levý okraj QR části
-        qr_x = x0 #+ self.padding
-        qr_y = y0 #+ self.padding
+        qr_x = x0 + self.padding
+        qr_y = y0 + self.padding
         qr_size = min(qr_width - 2*self.padding, self.height - 2*self.padding)
-        qr_size = min(qr_width, self.height)
 
 
         # Volitelné řádky nad QR
@@ -49,13 +48,22 @@ class Label(Flowable):
         lines = [self.line_1, self.line_2, self.line_3]
         lines = [l for l in lines if l]  # jen neNone
         text_start_y = qr_y + qr_size + 1 * mm  # začátek nad QR
-        qr_center_x = qr_x + qr_size / 2
+        text_center_x = qr_x + qr_size / 2
         for line in reversed(lines):  # vykreslíme odshora dolů
-            c.drawCentredString(qr_center_x, text_start_y, line)
+            c.drawCentredString(text_center_x, text_start_y, line)
             text_start_y += line_height
 
-        # 1️⃣ QR kód vlevo (2/3 šířky)
-        qr = qrcode.make(f"{self.pid}")
+         # QR kód bez bílého rámečku
+        qr = qrcode.QRCode(
+            version=1,  # velikost QR
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=0  # <--- tady nastavíš "border" na 0
+        )
+        qr.add_data("https://example.com")
+        qr.make(fit=True)
+
+        qr = qr.make_image(fill_color="black", back_color="white")
         qr_io = BytesIO()
         qr.save(qr_io, format="PNG")
         qr_io.seek(0)
@@ -83,8 +91,6 @@ class Label(Flowable):
         c.setFont(self.font_italic, 7)
         text_width = c.stringWidth(self.taxon, self.font, 8)
         c.drawCentredString(0, -1 * mm, self.taxon)
-
-
         c.restoreState()
 
         # 4️⃣ Svislá čára mezi PID a ID částí
