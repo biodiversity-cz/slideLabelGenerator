@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "slide_label_generator"
+version = "0.1.0"
+description = "Create lable printset for light microscopy slides"
+authors = [
+    "Petr Novotný <novotp@natur.cuni.cz>"
+]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+pandas = "^2"
+openpyxl = "^3"
