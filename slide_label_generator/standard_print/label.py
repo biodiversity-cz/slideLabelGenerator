@@ -31,7 +31,7 @@ class Label(Flowable):
         # Okraj štítku
         c.rect(x0, y0, self.width, self.height)
 
-        # Rozdělení prostoru: pravá část = ID, prostřední = PID, levá 2/3 = QR
+        # Rozdělení prostoru: pravá část = ID, prostřední = taxon, levá 2/3 = QR
         id_band_width = 4 * mm
         taxon_band_width = 4 * mm
         qr_width = self.width - id_band_width - taxon_band_width
@@ -60,7 +60,7 @@ class Label(Flowable):
             box_size=10,
             border=0  # <--- tady nastavíš "border" na 0
         )
-        qr.add_data("https://example.com")
+        qr.add_data(self.pid)
         qr.make(fit=True)
 
         qr = qr.make_image(fill_color="black", back_color="white")
@@ -80,7 +80,7 @@ class Label(Flowable):
             mask='auto'
         )
 
-        # 2️⃣ Svislá čára mezi QR a PID částí
+        # 2️⃣ Svislá čára mezi QR a taxon částí
         taxon_line_x = x0 + qr_width
         c.line(taxon_line_x, y0, taxon_line_x, y0 + self.height)
 
@@ -93,7 +93,7 @@ class Label(Flowable):
         c.drawCentredString(0, -1 * mm, self.taxon)
         c.restoreState()
 
-        # 4️⃣ Svislá čára mezi PID a ID částí
+        # 4️⃣ Svislá čára mezi taxon a ID částí
         id_line_x = taxon_line_x + taxon_band_width
         c.line(id_line_x, y0, id_line_x, y0 + self.height)
 
