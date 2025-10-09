@@ -9,8 +9,7 @@ from slide_label_generator.standard_print.label import Label
 
 def write_pdf(data: pd.DataFrame, path: str, margin_top: float = 10,
               margin_bottom: float = 10, margin_left: float = 10,
-              margin_right: float = 10, padding: float = 1,
-              space_x: int = 1, space_y: int = 1) -> None:
+              margin_right: float = 10, space_x: int = 1, space_y: int = 1) -> None:
     """
     Create a PDF with A4 paper size and configurable margins.
     
@@ -21,7 +20,6 @@ def write_pdf(data: pd.DataFrame, path: str, margin_top: float = 10,
         margin_bottom: Bottom margin in mm (default: 10)
         margin_left: Left margin in mm (default: 10)
         margin_right: Right margin in mm (default: 10)
-        padding: Internal padding for labels in mm (default: 1)
         space_x: Horizontal spacing between labels (default: 1)
         space_y: Vertical spacing between labels (default: 1)
     """
@@ -48,7 +46,7 @@ def write_pdf(data: pd.DataFrame, path: str, margin_top: float = 10,
     labels_per_column = int(available_height // ((label_height + space_y * mm) + space_y * mm))
 
     # Create labels from DataFrame (excluding header)
-    labels = [Label(row, label_width, label_height, padding * mm) for _, row in data.iterrows()]
+    labels = [Label(row, label_width, label_height, 1 * mm) for _, row in data.iterrows()]
 
     # Arrange labels in a grid
     elements = []
