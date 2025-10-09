@@ -20,8 +20,8 @@ class Label(Flowable):
         self.padding = padding
         self.font = 'DejaVuSans'
         self.font_italic = 'DejaVuSans-Oblique'
-        pdfmetrics.registerFont(TTFont(self.font, 'fonts/DejaVuSans.ttf'))
-        pdfmetrics.registerFont(TTFont(self.font_italic, 'fonts/DejaVuSans-Oblique.ttf'))
+        pdfmetrics.registerFont(TTFont(self.font,  "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"))
+        pdfmetrics.registerFont(TTFont(self.font_italic,  "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf"))
 
     def draw(self):
 
