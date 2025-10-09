@@ -9,4 +9,4 @@ poetry install
 poetry run python test.py
 ```
 
-Uses DejaVu font, available from https://www.fontsquirrel.com/fonts/download/dejavu-sans (extract and copy to /fonts directory).
+Uses DejaVu font, available from https://www.fontsquirrel.com/fonts/download/dejavu-sans (extract and copy .ttf files to the /fonts directory).
