@@ -5,16 +5,23 @@ from io import BytesIO
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
+import math
+
+def sanitize_value(value):
+    """Convert NaN or None values to empty strings."""
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return ''
+    return str(value)
 
 class Label(Flowable):
     def __init__(self, text_lines, width, height, padding=2*mm):
         super().__init__()
-        self.id = text_lines['id']
-        self.pid = text_lines['pid']
-        self.taxon = text_lines['taxon']
-        self.line_1 = text_lines.get('line_1')
-        self.line_2 = text_lines.get('line_2')
-        self.line_3 = text_lines.get('line_3')
+        self.id = sanitize_value(text_lines['id'])
+        self.pid = sanitize_value(text_lines['pid'])
+        self.taxon = sanitize_value(text_lines['taxon'])
+        self.line_1 = sanitize_value(text_lines.get('line_1'))
+        self.line_2 = sanitize_value(text_lines.get('line_2'))
+        self.line_3 = sanitize_value(text_lines.get('line_3'))
         self.width = width
         self.height = height
         self.padding = padding
